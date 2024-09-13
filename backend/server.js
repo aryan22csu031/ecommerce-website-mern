@@ -30,7 +30,7 @@ const path = require("path");
 // CORS configuration to allow requests from your frontend
 app.use(
   cors({
-    origin: "https://f-52uq.onrender.com", // Replace with your frontend's origin
+    origin: "https://ecommerce-website-mern-2.onrender.com", // Replace with your frontend's origin
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -48,7 +48,7 @@ app.use(express.json());
 
 // Handle preflight requests (OPTIONS)
 app.options('*', cors({
-  origin: "https://f-52uq.onrender.com",
+  origin: "https://ecommerce-website-mern-2.onrender.com",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
