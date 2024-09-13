@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv")
+const dotenv = require("dotenv");
 dotenv.config();
 const cors = require("cors");
 const authRouter = require("./routes/auth/auth-routes");
@@ -17,11 +17,9 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
-//create a database connection -> u can also
-//create a separate file for this and then import/use that file here
-
+// Create a database connection
 mongoose
-  .connect(process.env.DB_URI)
+  .connect("mongodb+srv://aryanarora:aryan324@cluster0.gbty0.mongodb.net/")
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 
@@ -29,14 +27,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const path = require("path");
 
-app.get("/", (req, res) => {
-app. use(express.static(path.resolve(_dirname, "frontend", "build")));
-res. sendFile(path.resolve(_dirname, "frontend", "build", "index.html"));
-});
-
+// CORS configuration to allow requests from your frontend
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://f-52uq.onrender.com", // Replace with your frontend's origin
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
@@ -45,18 +39,21 @@ app.use(
       "Expires",
       "Pragma",
     ],
-    credentials: true,
+    credentials: true, // Allow credentials like cookies or authorization headers
   })
 );
 
 app.use(cookieParser());
 app.use(express.json());
+
+// Handle preflight requests (OPTIONS)
 app.options('*', cors({
-  origin: 'http://localhost:5173',
+  origin: "https://f-52uq.onrender.com",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
+// Routes
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/admin/orders", adminOrderRouter);
@@ -70,4 +67,5 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+// Start the server
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
